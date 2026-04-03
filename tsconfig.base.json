@@ -10,9 +10,9 @@
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
-      "@ass-end/proto": ["libs/proto/src"],
-      "@ass-end/prisma": ["libs/prisma/src"],
-      "@ass-end/logger": ["libs/logger/src"]
+      "@backend/proto": ["libs/proto/src"],
+      "@backend/prisma": ["libs/prisma/src"],
+      "@backend/logger": ["libs/logger/src"]
     }
   }
 }

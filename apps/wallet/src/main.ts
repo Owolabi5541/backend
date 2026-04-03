@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { Logger } from 'nestjs-pino';
-import { PROTO_PATHS } from '@ass-end/proto';
+import { PROTO_PATHS } from '@backend/proto';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
