@@ -11,6 +11,7 @@ npm **workspaces** monorepo: HTTP **gateway**, **users** and **wallet** gRPC mic
 | `apps/wallet` | Wallet gRPC service |
 | `libs/proto` | Shared `.proto` files and `PROTO_PATHS` |
 | `libs/prisma` | Prisma: `user/` and `wallet/` schemas + migrations |
+| `libs/logger` | Shared **nestjs-pino** options (`createPinoParams`) |
 | `postman` | `backend.postman_collection.json` |
 
 ## Prerequisites
@@ -62,6 +63,16 @@ npm run generate
 | `npm run generate` | Generate both Prisma clients |
 | `npm run prisma:studio:user` | Prisma Studio (user DB) |
 | `npm run prisma:studio:wallet` | Prisma Studio (wallet DB) |
+
+## Logging
+
+The gateway and gRPC services use **nestjs-pino** with shared options from `@ass-end/logger` (`createPinoParams('<name>')`). Each process adds a **`service`** field to logs (`gateway`, `users`, `wallet`).
+
+- **`NODE_ENV=production`:** JSON logs to stdout.
+- **Otherwise:** logs are pretty-printed via **pino-pretty** (easier local reading).
+- **Verbosity:** set **`LOG_LEVEL`** (for example `info`, `debug`, `warn`); it is passed through to Pino.
+
+The gateway also logs HTTP requests via **pino-http** (request/response metadata).
 
 ## How to run services
 
@@ -154,6 +165,7 @@ Import **`postman/backend.postman_collection.json`**. Set **`baseUrl`** to **`ht
 | Source | `apps/users`, `apps/wallet`, `apps/gateway`, `libs/*` |
 | Prisma | `libs/prisma/user/schema.prisma`, `libs/prisma/wallet/schema.prisma` |
 | Proto | `libs/proto/src/protos/*.proto` |
+| Logging | `libs/logger` (`nestjs-pino`) |
 | Examples | This section + `postman/` |
 
 ## Architecture (short)

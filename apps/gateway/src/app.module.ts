@@ -1,12 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule } from '@nestjs/config';
+import { LoggerModule } from 'nestjs-pino';
+import { createPinoParams } from '@ass-end/logger';
 import { PROTO_PATHS } from '@ass-end/proto';
 import { UsersHttpController } from './users.http.controller';
 import { WalletHttpController } from './wallet.http.controller';
 
 @Module({
   imports: [
+    LoggerModule.forRoot(createPinoParams('gateway')),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../../.env' }),
     ClientsModule.register([
       {

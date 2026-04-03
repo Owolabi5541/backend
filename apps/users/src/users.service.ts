@@ -1,5 +1,6 @@
-import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc, RpcException } from '@nestjs/microservices';
+import { PinoLogger } from 'nestjs-pino';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from './prisma.service';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -25,13 +26,15 @@ const MIN_PASSWORD_LENGTH = 8;
 
 @Injectable()
 export class UsersService implements OnModuleInit {
-  private readonly logger = new Logger(UsersService.name);
   private walletService!: WalletServiceClient;
 
   constructor(
     private readonly prisma: PrismaService,
     @Inject('WALLET_SERVICE') private readonly walletClient: ClientGrpc,
-  ) {}
+    private readonly logger: PinoLogger,
+  ) {
+    this.logger.setContext(UsersService.name);
+  }
 
   onModuleInit() {
     this.walletService = this.walletClient.getService<WalletServiceClient>('WalletService');
@@ -76,10 +79,7 @@ export class UsersService implements OnModuleInit {
     try {
       await firstValueFrom(this.walletService.CreateWallet({ userId: user.id }));
     } catch (error: any) {
-      this.logger.error(
-        `Wallet auto-creation failed for user ${user.id}`,
-        error?.stack || error?.message,
-      );
+      this.logger.error(`Wallet auto-creation failed for user ${user.id}`, error?.stack || error?.message);
       await this.prisma.user.delete({ where: { id: user.id } });
       throw new RpcException({
         code: 13,

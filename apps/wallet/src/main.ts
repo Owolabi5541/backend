@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Logger } from 'nestjs-pino';
 import { PROTO_PATHS } from '@ass-end/proto';
 import { AppModule } from './app.module';
 
@@ -20,11 +20,12 @@ async function bootstrap() {
         oneofs: true,
       },
     },
+    bufferLogs: true,
   });
 
-  const logger = new Logger('Wallet');
+  app.useLogger(app.get(Logger));
   await app.listen();
-  logger.log(`Wallet service listening on ${process.env.WALLET_SERVICE_URL || '0.0.0.0:50052'}`);
+  app.get(Logger).log(`Wallet service listening on ${process.env.WALLET_SERVICE_URL || '0.0.0.0:50052'}`);
 }
 
 bootstrap();

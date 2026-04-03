@@ -1,12 +1,13 @@
 import 'reflect-metadata';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const logger = new Logger('Gateway');
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(Logger));
 
   app.setGlobalPrefix('api');
 
@@ -30,6 +31,7 @@ async function bootstrap() {
   const port = Number(process.env.GATEWAY_PORT || 3000);
   await app.listen(port);
 
+  const logger = app.get(Logger);
   logger.log(`Gateway running on http://localhost:${port}`);
   logger.log(`REST API base: http://localhost:${port}/api`);
   logger.log(`Swagger UI: http://localhost:${port}/docs`);

@@ -11,7 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@ass-end/proto": ["libs/proto/src"],
-      "@ass-end/prisma": ["libs/prisma/src"]
+      "@ass-end/prisma": ["libs/prisma/src"],
+      "@ass-end/logger": ["libs/logger/src"]
     }
   }
 }

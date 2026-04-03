@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule } from '@nestjs/config';
+import { LoggerModule } from 'nestjs-pino';
+import { createPinoParams } from '@ass-end/logger';
 import { PROTO_PATHS } from '@ass-end/proto';
 import { PrismaService } from './prisma.service';
 import { UsersController } from './users.controller';
@@ -8,6 +10,7 @@ import { UsersService } from './users.service';
 
 @Module({
   imports: [
+    LoggerModule.forRoot(createPinoParams('users')),
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../../.env' }),
     ClientsModule.register([
       {
