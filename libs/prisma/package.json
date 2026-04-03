@@ -2,5 +2,13 @@
   "name": "@ass-end/prisma",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.ts"
+  "main": "src/index.ts",
+  "scripts": {
+    "prisma:generate": "npx dotenv-cli -e ../../.env -- prisma generate --schema=user/schema.prisma && npx dotenv-cli -e ../../.env -- prisma generate --schema=wallet/schema.prisma",
+    "prisma:migrate:reset": "npx dotenv-cli -e ../../.env -- prisma migrate reset --force --skip-seed --schema=user/schema.prisma && npx dotenv-cli -e ../../.env -- prisma migrate reset --force --skip-seed --schema=wallet/schema.prisma",
+    "prisma:migrate:user": "npx dotenv-cli -e ../../.env -- prisma migrate dev --schema=user/schema.prisma",
+    "prisma:migrate:wallet": "npx dotenv-cli -e ../../.env -- prisma migrate dev --schema=wallet/schema.prisma",
+    "prisma:studio:user": "npx dotenv-cli -e ../../.env -- prisma studio --schema=user/schema.prisma",
+    "prisma:studio:wallet": "npx dotenv-cli -e ../../.env -- prisma studio --schema=wallet/schema.prisma"
+  }
 }

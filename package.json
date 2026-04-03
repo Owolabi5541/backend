@@ -5,7 +5,26 @@
   "workspaces": ["apps/*", "libs/*"],
   "scripts": {
     "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "migrate:reset": "npx dotenv-cli -e .env -- prisma migrate reset --force --skip-seed --schema=libs/prisma/user/schema.prisma && npx dotenv-cli -e .env -- prisma migrate reset --force --skip-seed --schema=libs/prisma/wallet/schema.prisma",
+    "migrate:reset:user": "npx dotenv-cli -e .env -- prisma migrate reset --force --skip-seed --schema=libs/prisma/user/schema.prisma",
+    "migrate:reset:wallet": "npx dotenv-cli -e .env -- prisma migrate reset --force --skip-seed --schema=libs/prisma/wallet/schema.prisma",
+    "migrate:dev": "npx dotenv-cli -e .env -- prisma migrate dev --schema=libs/prisma/user/schema.prisma && npx dotenv-cli -e .env -- prisma migrate dev --schema=libs/prisma/wallet/schema.prisma",
+    "generate": "npx dotenv-cli -e .env -- prisma generate --schema=libs/prisma/user/schema.prisma && npx dotenv-cli -e .env -- prisma generate --schema=libs/prisma/wallet/schema.prisma",
+    "prisma:generate": "npm run generate",
+    "prisma:migrate:user": "npm run prisma:migrate:user -w @ass-end/prisma",
+    "prisma:migrate:wallet": "npm run prisma:migrate:wallet -w @ass-end/prisma",
+    "prisma:studio:user": "npm run prisma:studio:user -w @ass-end/prisma",
+    "prisma:studio:wallet": "npm run prisma:studio:wallet -w @ass-end/prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "dotenv-cli": "^8.0.0",
+    "prisma": "^6.6.0",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=18"
