@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "backend — Users & Wallet (HTTP Gateway)",
+    "description": "HTTP gateway. Start: npm run dev:gateway. Set baseUrl to http://localhost:3000/api (REST lives under /api). Swagger UI: http://localhost:3000/docs. Set userId after Create user.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "userId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "List all users",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/users"
+      }
+    },
+    {
+      "name": "Create user",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john@example.com\",\n  \"name\": \"John Doe\",\n  \"password\": \"secretpass123\"\n}"
+        },
+        "url": "{{baseUrl}}/users"
+      }
+    },
+    {
+      "name": "Get user by id",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/users/{{userId}}"
+      }
+    },
+    {
+      "name": "Create wallet (manual)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"{{userId}}\"\n}"
+        },
+        "url": "{{baseUrl}}/wallets"
+      }
+    },
+    {
+      "name": "Get wallet",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/wallets/{{userId}}"
+      }
+    },
+    {
+      "name": "Credit wallet",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 5000\n}"
+        },
+        "url": "{{baseUrl}}/wallets/{{userId}}/credit"
+      }
+    },
+    {
+      "name": "Debit wallet",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 2000\n}"
+        },
+        "url": "{{baseUrl}}/wallets/{{userId}}/debit"
+      }
+    }
+  ]
+}
